@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       initialRoute: RouteManagement.initialRoute,
       routes: RouteManagement.routes,
-      onGenerateRoute: RouteManagement.generateRoute,
+      // onGenerateRoute: RouteManagement.generateRoute,
     );
   }
 }
