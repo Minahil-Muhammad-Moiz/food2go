@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../data/food_data.dart';
 import '../../models/food_item.dart';
 import '../../routes/app_routes.dart';
-import '../../data/cart_store.dart';
+import '../../widgets/food_card.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -41,13 +41,15 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: Column(
         children: [
+          // Category Filter
           SizedBox(
             height: 50,
             child: ListView(
               scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.symmetric(horizontal: 8),
               children: ['All', 'Fast Food', 'Dinner'].map((category) {
                 return Padding(
-                  padding: const EdgeInsets.all(8),
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
                   child: ChoiceChip(
                     label: Text(category),
                     selected: selectedCategory == category,
@@ -56,19 +58,37 @@ class _HomeScreenState extends State<HomeScreen> {
                         selectedCategory = category;
                       });
                     },
+                    selectedColor: Colors.orange,
+                    backgroundColor: Colors.grey[200],
+                    labelStyle: TextStyle(
+                      color: selectedCategory == category
+                          ? Colors.white
+                          : Colors.black,
+                    ),
                   ),
                 );
               }).toList(),
             ),
           ),
+
+          // Food List
           Expanded(
-            child: ListView.builder(
-              itemCount: filteredItems.length,
-              itemBuilder: (context, index) {
-                final item = filteredItems[index];
-                return buildFoodCard(item, context);
-              },
-            ),
+            child: filteredItems.isEmpty
+                ? const Center(child: Text('No items in this category'))
+                : ListView.builder(
+                    itemCount: filteredItems.length,
+                    itemBuilder: (context, index) {
+                      final item = filteredItems[index];
+                      return FoodCard(
+                        item: item,
+                        onTap: () {
+                          print(
+                            'Tapped on ${item.name}',
+                          ); // Placeholder for navigation
+                        },
+                      );
+                    },
+                  ),
           ),
         ],
       ),
@@ -76,54 +96,8 @@ class _HomeScreenState extends State<HomeScreen> {
         onPressed: () {
           Navigator.of(context).pushNamed(AppRoutes.profile);
         },
+        backgroundColor: Colors.orange,
         child: const Icon(Icons.person),
-      ),
-    );
-  }
-
-  Widget buildFoodCard(FoodItem item, BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.all(12),
-      child: InkWell(
-        onTap: () {
-          Navigator.of(context).pushNamed(AppRoutes.detail);
-        },
-        child: Padding(
-          padding: const EdgeInsets.all(12),
-          child: Row(
-            children: [
-              Image.network(
-                item.image,
-                width: 90,
-                height: 90,
-                fit: BoxFit.cover,
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      item.name,
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    Text(item.category),
-                    Text('${item.price} PKR'),
-                  ],
-                ),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  CartStore.addToCart(item);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('${item.name} added to cart')),
-                  );
-                },
-                child: const Text('Add'),
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }
