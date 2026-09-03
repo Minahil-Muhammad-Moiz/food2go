@@ -59,7 +59,7 @@ dependencies:
   # ========================================
   # Local Notifications - Push notifications
   # WHY: Remind users to log their food
-  flutter_local_notifications: ^16.1.0
+  flutter_local_notifications: ^22.3.0
   
   # ========================================
   # DATE & TIME
@@ -102,7 +102,7 @@ dependencies:
   # ========================================
   # Package Info - Get app version
   # WHY: Show version in settings
-  package_info_plus: ^4.0.2
+  package_info_plus: ^10.2.1
 
 dev_dependencies:
   flutter_test:
