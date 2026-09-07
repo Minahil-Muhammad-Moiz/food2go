@@ -9,17 +9,22 @@ class AppRoutes {
   AppRoutes._();
   // Route Names
   // WHY: Constants prevent typos in route names
-  static const String splash = '/splash';
+
+  static const String tracking = '/tracking';
+ // Auth Routes
   static const String login = '/login';
   static const String register = '/register';
+  
+  // Main App Routes
   static const String home = '/home';
-  static const String foodDetail = '/food-detail';
-  static const String addFood = '/add-food';
-  static const String tracking = '/tracking';
   static const String settings = '/settings';
   static const String profile = '/profile';
   static const String notifications = '/notifications';
-
+  
+  // Food Routes
+  static const String foodDetail = '/food-detail';
+  static const String addFood = '/add-food';
+  
   // Route Parameters
   // WHY: When passing data between screens, we use parameters
   static const String paramFoodId = 'foodId';
